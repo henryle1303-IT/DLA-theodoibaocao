@@ -89,7 +89,6 @@ function caiDatTrigger() {
  */
 function timMucTieuChuaBaoCao_(ss, monday) {
   const mondayKey = dateKey_(monday);
-  const sunday = addDays_(monday, 6);
 
   // Mục tiêu đã báo cáo tuần này
   const bc = ss.getSheetByName(CONFIG.SHEET_BAO_CAO).getDataRange().getValues();
@@ -117,8 +116,9 @@ function timMucTieuChuaBaoCao_(ss, monday) {
 
     const dStart = parseDate_(batDau);
     const dEnd = parseDate_(deadline);
-    if (dStart && dStart > sunday) continue; // chưa đến kỳ
-    if (dEnd && dEnd < monday) continue;     // đã kết thúc
+    // Báo cáo thứ Hai là cho tuần trước
+    if (dStart && dStart >= monday) continue;              // chưa đến kỳ
+    if (dEnd && dEnd < addDays_(monday, -7)) continue;     // đã kết thúc
 
     if (!daBaoCao.has(maMT)) {
       ketQua.push({
@@ -339,8 +339,8 @@ function fmt_(d, pattern) {
   return Utilities.formatDate(d, CONFIG.TIMEZONE, pattern || 'dd/MM/yyyy');
 }
 
-function findHeaderRow_(values, firstHeader) {
-  return values.findIndex(row => String(row[0]).trim() === firstHeader);
+function findHeaderRow_(values, header) {
+  return values.findIndex(row => row.some(c => String(c).trim() === header));
 }
 
 function findRowStartsWith_(values, prefix) {
