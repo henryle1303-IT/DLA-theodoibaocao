@@ -1,0 +1,11 @@
+{
+  "name": "dla-theodoibaocao",
+  "private": true,
+  "description": "Apps Script theo dõi tiến độ, nhắc báo cáo tuần - Trường ĐH Kinh tế Công nghiệp Long An",
+  "scripts": {
+    "test": "node --test \"tests/*.test.js\""
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
