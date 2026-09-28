@@ -50,13 +50,28 @@ Mỗi đơn vị giữ nguyên cách làm hiện tại. Hiệu trưởng chỉ x
    KHÔNG đổi tên sheet, KHÔNG chèn/xóa cột.
 3. Chia sẻ quyền XEM mọi file đơn vị cho tài khoản sẽ chạy script (ví dụ tài khoản Phòng TCHC).
 4. Tạo Google Sheet mới "TONG HOP TIEN DO TOAN TRUONG", vào Tiện ích mở rộng > Apps Script,
-   dán Code.gs (và appsscript.json nếu bật hiển thị manifest).
+   tạo 6 file .gs cùng tên và dán nội dung tương ứng (00_CauHinh ... 05_TienIch),
+   và appsscript.json nếu bật hiển thị manifest.
 5. Chạy khoiTao() -> điền sheet DS_DonVi (cột G ghi x để theo dõi).
-6. Sửa CONFIG: EMAIL_HIEU_TRUONG, CC_HIEU_TRUONG.
-7. Để TEST_MODE = true, chạy menu "Theo dõi tiến độ" > Chạy kiểm tra thứ Hai: mọi email về chính mình.
+6. Sửa CONFIG trong 00_CauHinh.gs: EMAIL_HIEU_TRUONG, CC_HIEU_TRUONG.
+7. Chạy menu "Theo dõi tiến độ" > "Chạy thử - mọi email gửi về tôi".
 8. Kiểm tra xong: TEST_MODE = false, chạy caiDatTrigger() một lần.
 
-## 6. Giới hạn
+## 6. Cấu trúc code
+
+| File | Nội dung |
+|---|---|
+| 00_CauHinh.gs | CONFIG, tên sheet, vị trí cột (COT), mức độ, màu - thường chỉ sửa file này |
+| 01_ChayChinh.gs | Hàm chạy chính, menu, lịch tự động, khởi tạo |
+| 02_DocDuLieu.gs | Đọc file đơn vị, quy tắc "phải báo cáo", thống kê, mức độ |
+| 03_Dashboard.gs | Ghi 2 sheet dashboard; cột khai báo dạng danh sách {ten, lay} |
+| 04_Email.gs | Soạn và gửi 4 loại email |
+| 05_TienIch.gs | Ngày tháng, chuỗi, gom nhóm, nhật ký |
+
+Muốn thêm cột dashboard: thêm 1 dòng vào cotTongQuan_() hoặc COT_CHI_TIET.
+File mẫu đổi vị trí cột: sửa COT trong 00_CauHinh.gs.
+
+## 7. Giới hạn
 
 - Gửi mail: tài khoản Workspace khoảng 1.500 người nhận/ngày - đủ cho vài chục đơn vị.
 - Thời gian chạy tối đa 6 phút/lần: đọc được khoảng 50-80 file đơn vị.
